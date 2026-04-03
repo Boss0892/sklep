@@ -1,0 +1,178 @@
+<section class="hero" style="{% if section.settings.bg_image != blank %}background-image: linear-gradient(135deg, rgba(15,30,61,0.88) 0%, rgba(26,58,110,0.82) 55%, rgba(26,115,232,0.75) 100%), url({{ section.settings.bg_image | img_url: '1600x' }});{% endif %}">
+  <div class="hero__inner">
+    <div class="hero__content">
+      {% if section.settings.eyebrow != blank %}
+        <div class="hero__eyebrow">⚡ {{ section.settings.eyebrow }}</div>
+      {% endif %}
+
+      <h1 class="hero__title">{{ section.settings.heading | default: 'Power Up <em>Faster</em> Than Ever' }}</h1>
+      <p class="hero__desc">{{ section.settings.subheading | default: 'Premium fast chargers, high-capacity power banks and charging cables — delivered to your door.' }}</p>
+
+      <div class="hero__buttons">
+        {% if section.settings.btn_primary_label != blank %}
+          <a href="{{ section.settings.btn_primary_url | default: routes.all_products_collection_url }}" class="btn btn--accent btn--lg">
+            {{ section.settings.btn_primary_label }} →
+          </a>
+        {% endif %}
+        {% if section.settings.btn_secondary_label != blank %}
+          <a href="{{ section.settings.btn_secondary_url | default: '/collections/power-banks' }}" class="btn btn--outline btn--lg">
+            {{ section.settings.btn_secondary_label }}
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="hero__stats">
+        {% if section.settings.stat_1_value != blank %}
+          <div>
+            <div class="hero__stat-value">{{ section.settings.stat_1_value }}</div>
+            <div class="hero__stat-label">{{ section.settings.stat_1_label }}</div>
+          </div>
+        {% endif %}
+        {% if section.settings.stat_2_value != blank %}
+          <div>
+            <div class="hero__stat-value">{{ section.settings.stat_2_value }}</div>
+            <div class="hero__stat-label">{{ section.settings.stat_2_label }}</div>
+          </div>
+        {% endif %}
+        {% if section.settings.stat_3_value != blank %}
+          <div>
+            <div class="hero__stat-value">{{ section.settings.stat_3_value }}</div>
+            <div class="hero__stat-label">{{ section.settings.stat_3_label }}</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__card-grid">
+        <div class="hero__mini-card">
+          <div class="hero__mini-card-emoji">⚡</div>
+          <div class="hero__mini-card-name">65W GaN Charger</div>
+          <div class="hero__mini-card-price">$29.99</div>
+        </div>
+        <div class="hero__mini-card">
+          <div class="hero__mini-card-emoji">🔋</div>
+          <div class="hero__mini-card-name">20000mAh Bank</div>
+          <div class="hero__mini-card-price">$39.99</div>
+        </div>
+        <div class="hero__mini-card">
+          <div class="hero__mini-card-emoji">🔌</div>
+          <div class="hero__mini-card-name">USB-C Cable 3m</div>
+          <div class="hero__mini-card-price">$14.99</div>
+        </div>
+        <div class="hero__mini-card">
+          <div class="hero__mini-card-emoji">📱</div>
+          <div class="hero__mini-card-name">MagSafe Charger</div>
+          <div class="hero__mini-card-price">$24.99</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "New Arrivals Just Dropped"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Power Up <em>Faster</em> Than Ever</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Premium fast chargers, high-capacity power banks and charging cables — delivered to your door."
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Primary Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_primary_label",
+      "label": "Primary button label",
+      "default": "Shop Bestsellers"
+    },
+    {
+      "type": "url",
+      "id": "btn_primary_url",
+      "label": "Primary button URL"
+    },
+    {
+      "type": "header",
+      "content": "Secondary Button"
+    },
+    {
+      "type": "text",
+      "id": "btn_secondary_label",
+      "label": "Secondary button label",
+      "default": "View Power Banks"
+    },
+    {
+      "type": "url",
+      "id": "btn_secondary_url",
+      "label": "Secondary button URL"
+    },
+    {
+      "type": "header",
+      "content": "Stats"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_value",
+      "label": "Stat 1 value",
+      "default": "50K+"
+    },
+    {
+      "type": "text",
+      "id": "stat_1_label",
+      "label": "Stat 1 label",
+      "default": "Happy Customers"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_value",
+      "label": "Stat 2 value",
+      "default": "200+"
+    },
+    {
+      "type": "text",
+      "id": "stat_2_label",
+      "label": "Stat 2 label",
+      "default": "Products"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_value",
+      "label": "Stat 3 value",
+      "default": "4.9★"
+    },
+    {
+      "type": "text",
+      "id": "stat_3_label",
+      "label": "Stat 3 label",
+      "default": "Average Rating"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

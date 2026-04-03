@@ -1,0 +1,62 @@
+<header class="site-header" role="banner">
+  <div class="container">
+    <div class="header-inner">
+
+      <!-- Hamburger (mobile) -->
+      <button class="hamburger" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-drawer">
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+        <span class="hamburger__line"></span>
+      </button>
+
+      <!-- Logo -->
+      <a href="{{ routes.root_url }}" class="site-logo" aria-label="{{ shop.name }} - Home">
+        <div class="site-logo__icon" aria-hidden="true">⚡</div>
+        <span>{{ section.settings.store_name | default: 'ChargeHub' | split: 'Hub' | first }}<span class="site-logo__accent">{{ section.settings.store_name | default: 'ChargeHub' | split: 'Charge' | last }}</span></span>
+      </a>
+
+      <!-- Navigation -->
+      <nav class="header-nav" aria-label="Main navigation">
+        <ul class="header-nav__list">
+          <li class="header-nav__item{% if request.path == '/' %} header-nav__item--active{% endif %}">
+            <a href="{{ routes.root_url }}">Home</a>
+          </li>
+          {% for link in linklists.main-menu.links %}
+            <li class="header-nav__item{% if link.active %} header-nav__item--active{% endif %}">
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}
+          <li class="header-nav__item{% if request.path contains '/collections' %} header-nav__item--active{% endif %}">
+            <a href="{{ routes.all_products_collection_url }}">All Products</a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <a href="{{ routes.search_url }}" class="header-icon-btn" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </a>
+        <button class="header-icon-btn" data-open-cart aria-label="Open cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-count" data-cart-count="{{ cart.item_count }}"{% if cart.item_count == 0 %} data-count="0"{% endif %}>{{ cart.item_count }}</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "store_name",
+      "label": "Store name",
+      "default": "ChargeHub"
+    }
+  ]
+}
+{% endschema %}

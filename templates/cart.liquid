@@ -1,0 +1,105 @@
+{% if cart.item_count == 0 %}
+  <div class="cart-page">
+    <div class="container">
+      <div class="cart-empty-state">
+        <div class="cart-empty-state__icon">🛒</div>
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven't added anything yet.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary btn--lg" style="margin-top:24px;">
+          Start Shopping →
+        </a>
+      </div>
+    </div>
+  </div>
+
+{% else %}
+  <div class="cart-page">
+    <div class="cart-page__inner">
+
+      <!-- Items -->
+      <div>
+        <h1 class="cart-page__title">Your Cart ({{ cart.item_count }} {% if cart.item_count == 1 %}item{% else %}items{% endif %})</h1>
+        <div class="cart-items-list">
+          {% for item in cart.items %}
+            <div class="cart-table-item">
+              <div class="cart-table-item__image">
+                {% if item.image %}
+                  <img src="{{ item.image | img_url: '160x160', crop: 'center' }}" alt="{{ item.title | escape }}" loading="lazy" width="90" height="90">
+                {% else %}
+                  <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:2.5rem;">⚡</div>
+                {% endif %}
+              </div>
+              <div class="cart-table-item__info">
+                <a href="{{ item.product.url }}" class="cart-table-item__title">{{ item.product.title }}</a>
+                {% unless item.variant.title == 'Default Title' %}
+                  <div class="cart-table-item__variant">{{ item.variant.title }}</div>
+                {% endunless %}
+                <div class="cart-table-item__controls">
+                  <a href="{{ routes.cart_url }}?updates[{{ item.key }}]={{ item.quantity | minus: 1 }}&checkout=" class="qty-btn" aria-label="Decrease quantity">−</a>
+                  <span class="qty-display">{{ item.quantity }}</span>
+                  <a href="{{ routes.cart_url }}?updates[{{ item.key }}]={{ item.quantity | plus: 1 }}&checkout=" class="qty-btn" aria-label="Increase quantity">+</a>
+                </div>
+              </div>
+              <div class="cart-table-item__price">{{ item.final_line_price | money }}</div>
+              <a href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity=0" class="cart-table-item__remove" aria-label="Remove {{ item.product.title | escape }}">✕</a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="cart-summary-box">
+        <h2 class="cart-summary-box__title">Order Summary</h2>
+
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+        <div class="summary-line">
+          <span>Shipping</span>
+          <span>
+            {% if cart.total_price >= 5000 %}
+              <span style="color:var(--color-success);font-weight:700;">FREE</span>
+            {% else %}
+              Calculated at checkout
+            {% endif %}
+          </span>
+        </div>
+        {% if cart.total_price < 5000 %}
+          <p style="font-size:0.8rem;color:var(--color-success);font-weight:500;">
+            🚚 Add {{ 5000 | minus: cart.total_price | money }} more for free shipping!
+          </p>
+        {% endif %}
+
+        <div class="summary-line summary-line--total">
+          <span>Total</span>
+          <span>{{ cart.total_price | money }}</span>
+        </div>
+
+        <div class="coupon-row">
+          <input type="text" class="coupon-input" id="coupon-input" placeholder="Discount code" aria-label="Discount code">
+          <button class="btn btn--outline-dark btn--sm" id="coupon-btn">Apply</button>
+        </div>
+
+        <form action="/checkout" method="post">
+          <button type="submit" class="btn btn--primary btn--full btn--lg">
+            Checkout →
+          </button>
+        </form>
+
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--outline-dark btn--full">
+          Continue Shopping
+        </a>
+
+        <div class="payment-methods">
+          <span class="payment-badge">Visa</span>
+          <span class="payment-badge">Mastercard</span>
+          <span class="payment-badge">PayPal</span>
+          <span class="payment-badge">Apple Pay</span>
+          <span class="payment-badge">Google Pay</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endif %}

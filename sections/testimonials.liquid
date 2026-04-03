@@ -1,0 +1,126 @@
+<section class="section section--surface-2">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">{{ section.settings.eyebrow | default: 'REVIEWS' }}</div>
+      <h2>{{ section.settings.title | default: 'What Our Customers Say' }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p>{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="testimonials-grid">
+      {% for block in section.blocks %}
+        <div class="testimonial-card" {{ block.shopify_attributes }}>
+          <div class="testimonial-card__stars">
+            {%- assign stars = block.settings.rating | default: 5 | plus: 0 -%}
+            {%- for i in (1..stars) -%}★{%- endfor -%}
+          </div>
+          <p class="testimonial-card__text">"{{ block.settings.review }}"</p>
+          <div class="testimonial-card__author">
+            <div class="testimonial-card__avatar" aria-hidden="true">{{ block.settings.name | slice: 0 }}</div>
+            <div>
+              <div class="testimonial-card__name">{{ block.settings.name }}</div>
+              <div class="testimonial-card__label">{{ block.settings.label | default: 'Verified Buyer' }}</div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "REVIEWS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Over 50,000 happy customers and counting."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "review",
+          "label": "Review text",
+          "default": "Amazing charger! Went from 0 to 80% in under 30 minutes. The build quality is outstanding."
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer name",
+          "default": "Alex M."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Customer label",
+          "default": "Verified Buyer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Social proof",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "review": "The 65W GaN charger is a game-changer. It's tiny, charges my MacBook AND iPhone at the same time. Absolutely love it!",
+            "name": "Alex M.",
+            "label": "Verified Buyer"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "review": "Ordered the 20000mAh power bank for a camping trip. It charged my phone 5 times and still had juice left. Incredible value.",
+            "name": "Sarah K.",
+            "label": "Verified Buyer"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "review": "Super fast shipping and the product is exactly as described. The braided cable feels very premium. Will buy again.",
+            "name": "Tom R.",
+            "label": "Verified Buyer"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
