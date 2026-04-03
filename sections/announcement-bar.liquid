@@ -1,0 +1,25 @@
+{% if section.settings.show_announcement %}
+<div class="announcement-bar">
+  {{ section.settings.text }}
+</div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Announcement text",
+      "default": "🚚 Free shipping on orders over $50 — Use code CHARGE10 for 10% off your first order!"
+    }
+  ]
+}
+{% endschema %}

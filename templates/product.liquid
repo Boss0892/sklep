@@ -1,0 +1,184 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_image  = current_variant.featured_image | default: product.featured_image %}
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <div class="breadcrumb__inner">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span class="breadcrumb__sep">/</span>
+    {% if collection %}
+      <a href="{{ collection.url }}">{{ collection.title }}</a>
+      <span class="breadcrumb__sep">/</span>
+    {% endif %}
+    <span class="breadcrumb__current">{{ product.title }}</span>
+  </div>
+</div>
+
+<div class="product-page">
+  <div class="product-page__inner">
+
+    <!-- Gallery -->
+    <div class="product-gallery">
+      <div class="product-gallery__main">
+        {% if featured_image %}
+          <img
+            id="product-main-image"
+            src="{{ featured_image | img_url: '800x800', crop: 'center' }}"
+            alt="{{ featured_image.alt | escape }}"
+            width="800"
+            height="800"
+          >
+        {% else %}
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:6rem;" aria-hidden="true">
+            {% if product.type contains 'Power Bank' %}🔋{% elsif product.type contains 'Cable' %}🔌{% elsif product.type contains 'Wireless' %}📶{% else %}⚡{% endif %}
+          </div>
+        {% endif %}
+      </div>
+      {% if product.images.size > 1 %}
+        <div class="product-gallery__thumbs">
+          {% for image in product.images limit: 5 %}
+            <button
+              class="product-gallery__thumb{% if forloop.first %} is-active{% endif %}"
+              data-src="{{ image | img_url: '800x800', crop: 'center' }}"
+              aria-label="View image {{ forloop.index }}"
+            >
+              <img src="{{ image | img_url: '150x150', crop: 'center' }}" alt="{{ image.alt | escape }}" loading="lazy" width="72" height="72">
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Info -->
+    <div class="product-info">
+      {% if product.vendor != blank %}
+        <div class="product-info__vendor">{{ product.vendor }}</div>
+      {% endif %}
+      <h1 class="product-info__title">{{ product.title }}</h1>
+
+      <div class="product-info__rating">
+        <span class="product-info__stars" aria-hidden="true">★★★★★</span>
+        <span style="font-size:0.9rem;color:var(--color-muted);">4.9 ({{ product.metafields.reviews.rating_count | default: '200+' }} reviews)</span>
+        <span style="font-size:0.82rem;color:var(--color-success);font-weight:600;margin-left:4px;">✓ {{ product.metafields.reviews.rating_count | default: '200+' }} reviews</span>
+      </div>
+
+      <div class="product-info__price-row">
+        <span
+          class="product-info__price{% if current_variant.compare_at_price > current_variant.price %} product-info__price--sale{% endif %}"
+          data-product-price
+        >
+          {{ current_variant.price | money }}
+        </span>
+        {% if current_variant.compare_at_price > current_variant.price %}
+          <span class="product-info__price-compare" data-product-price-compare>
+            {{ current_variant.compare_at_price | money }}
+          </span>
+          <span class="product-info__save-badge">
+            Save {{ current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round }}%
+          </span>
+        {% endif %}
+      </div>
+
+      {% if product.description != blank %}
+        <div class="product-info__desc">{{ product.description }}</div>
+      {% endif %}
+
+      <form data-product-form action="/cart/add" method="post">
+        <!-- Variant Selector -->
+        {% unless product.has_only_default_variant %}
+          {% for option in product.options_with_values %}
+            <div style="margin-bottom:16px;">
+              <label class="variant-label" for="option-{{ forloop.index }}">
+                {{ option.name }}: <strong>{{ current_variant.options[forloop.index0] }}</strong>
+              </label>
+              <div class="variant-buttons" data-variant-selector>
+                {% for value in option.values %}
+                  {%- assign variant_for_value = product.variants | where: 'option1', value | first -%}
+                  <button
+                    type="button"
+                    class="variant-btn{% if current_variant.options contains value %} is-selected{% endif %}{% unless variant_for_value.available %} is-unavailable{% endunless %}"
+                    data-variant-id="{{ variant_for_value.id }}"
+                    data-price="{{ variant_for_value.price }}"
+                    data-price-compare="{{ variant_for_value.compare_at_price }}"
+                    {% unless variant_for_value.available %}aria-disabled="true"{% endunless %}
+                  >{{ value }}</button>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endunless %}
+
+        <!-- Hidden variant ID -->
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+        <!-- Quantity -->
+        <div class="product-qty-row" style="margin-bottom:16px;">
+          <div class="product-qty-selector" data-qty-stepper>
+            <button type="button" class="qty-btn" data-action="decrement" aria-label="Decrease quantity">−</button>
+            <input class="product-qty-input" type="number" name="quantity" value="1" min="1" max="99" aria-label="Quantity">
+            <button type="button" class="qty-btn" data-action="increment" aria-label="Increase quantity">+</button>
+          </div>
+          <span style="font-size:0.82rem;color:var(--color-success);font-weight:600;">
+            {% if current_variant.inventory_quantity > 0 and current_variant.inventory_management == 'shopify' %}
+              ✓ {{ current_variant.inventory_quantity }} in stock
+            {% elsif current_variant.available %}
+              ✓ In Stock — ships within 24h
+            {% else %}
+              ✕ Sold Out
+            {% endif %}
+          </span>
+        </div>
+
+        <!-- Add to Cart & Wishlist -->
+        <div class="product-actions">
+          <button
+            type="submit"
+            class="btn--atc"
+            data-atc-btn
+            data-text="Add to Cart"
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            {% if current_variant.available %}Add to Cart{% else %}Sold Out{% endif %}
+          </button>
+          <button
+            type="button"
+            class="btn--wishlist"
+            data-wishlist-btn
+            data-product-id="{{ product.id }}"
+            aria-label="Add to wishlist"
+          >♡</button>
+        </div>
+      </form>
+
+      <!-- Guarantee Strip -->
+      <div class="product-guarantee">
+        <div class="product-guarantee__item">🚚 Free shipping over $50</div>
+        <div class="product-guarantee__item">🔒 Secure checkout</div>
+        <div class="product-guarantee__item">↩️ 30-day returns</div>
+        <div class="product-guarantee__item">✓ Genuine product</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Related products -->
+{% assign related = collections[product.collections.first.handle].products | where: 'available', true %}
+{% if related.size > 1 %}
+  <section class="section section--surface-2">
+    <div class="container">
+      <div class="section-header">
+        <div class="eyebrow">YOU MIGHT ALSO LIKE</div>
+        <h2>Related Products</h2>
+      </div>
+      <div class="product-grid">
+        {% for rel_product in related limit: 4 %}
+          {% unless rel_product.id == product.id %}
+            {% render 'product-card', product: rel_product %}
+          {% endunless %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}

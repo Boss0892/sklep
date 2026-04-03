@@ -1,0 +1,75 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {}
+    },
+    "trust-bar": {
+      "type": "trust-bar",
+      "settings": {}
+    },
+    "categories": {
+      "type": "category-list",
+      "settings": {},
+      "blocks": {
+        "cat-1": { "type": "category", "settings": { "emoji": "⚡", "title": "Fast Chargers", "count": "45+ products" } },
+        "cat-2": { "type": "category", "settings": { "emoji": "🔋", "title": "Power Banks", "count": "30+ products" } },
+        "cat-3": { "type": "category", "settings": { "emoji": "📶", "title": "Wireless Charging", "count": "20+ products" } },
+        "cat-4": { "type": "category", "settings": { "emoji": "🔌", "title": "Cables", "count": "50+ products" } },
+        "cat-5": { "type": "category", "settings": { "emoji": "🚗", "title": "Car Chargers", "count": "15+ products" } }
+      },
+      "blocks_order": ["cat-1", "cat-2", "cat-3", "cat-4", "cat-5"]
+    },
+    "featured-products": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "BESTSELLERS",
+        "title": "Our Top Products",
+        "subtitle": "High-performance charging essentials trusted by thousands of customers.",
+        "products_to_show": 4,
+        "show_view_all": true
+      }
+    },
+    "features": {
+      "type": "features-grid",
+      "settings": {},
+      "blocks": {
+        "f1": { "type": "feature", "settings": { "emoji": "⚡", "title": "Ultra Fast Charging", "description": "GaN technology delivers up to 140W — charge your laptop and phone simultaneously at full speed." } },
+        "f2": { "type": "feature", "settings": { "emoji": "🔋", "title": "High Capacity", "description": "Power banks up to 26800mAh keep your devices running all day, even on the longest trips." } },
+        "f3": { "type": "feature", "settings": { "emoji": "🌍", "title": "Universal Compatibility", "description": "Works with iPhone, Android, iPad, MacBook and any USB-C or USB-A device." } },
+        "f4": { "type": "feature", "settings": { "emoji": "🛡️", "title": "Safety Certified", "description": "CE, FCC and RoHS certified with over-voltage, over-current and short-circuit protection." } },
+        "f5": { "type": "feature", "settings": { "emoji": "🚚", "title": "Fast & Free Shipping", "description": "Free tracked shipping on orders over $50. Most orders dispatched within 24 hours." } },
+        "f6": { "type": "feature", "settings": { "emoji": "↩️", "title": "Hassle-Free Returns", "description": "Not happy? Return within 30 days for a full refund — no questions asked." } }
+      },
+      "blocks_order": ["f1", "f2", "f3", "f4", "f5", "f6"]
+    },
+    "promo": {
+      "type": "promo-banner",
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {},
+      "blocks": {
+        "t1": { "type": "testimonial", "settings": { "rating": 5, "review": "The 65W GaN charger is a game-changer. Tiny, yet charges my MacBook AND iPhone simultaneously. Absolutely love it!", "name": "Alex M.", "label": "Verified Buyer ✓" } },
+        "t2": { "type": "testimonial", "settings": { "rating": 5, "review": "Ordered the 20000mAh power bank for a camping trip — it charged my phone 5 times and still had juice. Incredible value!", "name": "Sarah K.", "label": "Verified Buyer ✓" } },
+        "t3": { "type": "testimonial", "settings": { "rating": 5, "review": "Super fast shipping and the product is exactly as described. The braided cable feels premium. Will definitely buy again.", "name": "Tom R.", "label": "Verified Buyer ✓" } }
+      },
+      "blocks_order": ["t1", "t2", "t3"]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "trust-bar",
+    "categories",
+    "featured-products",
+    "features",
+    "promo",
+    "testimonials",
+    "newsletter"
+  ]
+}

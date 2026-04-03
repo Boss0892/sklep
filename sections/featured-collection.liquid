@@ -1,0 +1,101 @@
+{% assign collection = collections[section.settings.collection] %}
+
+<section class="section{% if section.settings.bg == 'surface-2' %} section--surface-2{% endif %}">
+  <div class="container">
+    <div class="section-header">
+      {% if section.settings.eyebrow != blank %}
+        <div class="eyebrow">{{ section.settings.eyebrow }}</div>
+      {% endif %}
+      <h2>{{ section.settings.title | default: 'Featured Products' }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p>{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    {% if collection != blank and collection.products_count > 0 %}
+      <div class="product-grid">
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          {% render 'product-card', product: product %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- Placeholder cards when no collection is set -->
+      <div class="product-grid">
+        {% render 'product-card-placeholder', title: '65W GaN Fast Charger', price: 2999, compare_at_price: 3999, badge: 'best', category: 'Chargers', emoji: '⚡', rating: 4.9, review_count: 238 %}
+        {% render 'product-card-placeholder', title: '20000mAh Power Bank', price: 3999, compare_at_price: 5499, badge: 'sale', category: 'Power Banks', emoji: '🔋', rating: 4.8, review_count: 412 %}
+        {% render 'product-card-placeholder', title: '3-in-1 Wireless Charger', price: 3499, compare_at_price: 0, badge: 'new', category: 'Wireless', emoji: '📶', rating: 4.7, review_count: 156 %}
+        {% render 'product-card-placeholder', title: 'USB-C Braided Cable 2m', price: 1499, compare_at_price: 0, badge: '', category: 'Cables', emoji: '🔌', rating: 4.9, review_count: 329 %}
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_view_all and section.settings.collection != blank %}
+      <div style="text-align:center; margin-top:40px;">
+        <a href="{{ collection.url }}" class="btn btn--outline-dark">
+          View All {{ collection.title }} →
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "BESTSELLERS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Our Top Products"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "High-performance charging essentials trusted by thousands of customers."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View all' button",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "bg",
+      "label": "Background",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "surface-2", "label": "Light blue" }
+      ],
+      "default": "default"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

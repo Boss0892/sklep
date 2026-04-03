@@ -1,0 +1,127 @@
+<section class="section section--surface-2">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">{{ section.settings.eyebrow | default: 'CATEGORIES' }}</div>
+      <h2>{{ section.settings.title | default: 'Shop by Category' }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p>{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="category-grid">
+      {% for block in section.blocks %}
+        <a href="{{ block.settings.url | default: routes.all_products_collection_url }}" class="category-card" {{ block.shopify_attributes }}>
+          <div class="category-card__icon" aria-hidden="true">{{ block.settings.emoji | default: '📦' }}</div>
+          <div class="category-card__title">{{ block.settings.title }}</div>
+          {% if block.settings.count != blank %}
+            <div class="category-card__count">{{ block.settings.count }}</div>
+          {% endif %}
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category List",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "CATEGORIES"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji icon",
+          "default": "⚡"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Fast Chargers"
+        },
+        {
+          "type": "text",
+          "id": "count",
+          "label": "Product count label",
+          "default": "45+ products"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category List",
+      "category": "Collection",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "emoji": "⚡",
+            "title": "Fast Chargers",
+            "count": "45+ products"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "emoji": "🔋",
+            "title": "Power Banks",
+            "count": "30+ products"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "emoji": "📶",
+            "title": "Wireless Charging",
+            "count": "20+ products"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "emoji": "🔌",
+            "title": "Cables",
+            "count": "50+ products"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "emoji": "🚗",
+            "title": "Car Chargers",
+            "count": "15+ products"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
