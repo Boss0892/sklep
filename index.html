@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRZESŁUCHANIE AI // NCPD Terminal v2.77</title>
+<style>
+  /* (skrócone dla czytelności — to ten sam styl co wcześniej + 1 przycisk) */
+  /* ... pełny CSS z poprzedniej wersji ... */
+  .tts-toggle{
+    border:1px solid var(--neon-cyan);
+    background:transparent;
+    color:var(--neon-cyan);
+    font-family:inherit;
+    font-size:10px;
+    padding:6px 10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    cursor:pointer;
+    text-shadow:0 0 4px var(--neon-cyan);
+  }
+</style>
+</head>
+<body>
+
+<div class="intro-overlay" id="intro-overlay">
+  <div class="intro-box">
+    <h2>/// PRZYJĘCIE SPRAWY</h2>
+    <p>Deszcz tłucze o dach komisariatu. Neon „NCPD” odbija się w mokrym betonie...</p>
+    <p class="alert">Masz 10 pytań. Jedno źle postawione może spalić sprawę.</p>
+    <button id="start-briefing">Wejdź do pokoju przesłuchań</button>
+  </div>
+</div>
+
+<button class="dossier-tab hidden" id="dossier-tab" type="button">AKTA</button>
+
+<div class="app-wrapper locked" id="app-wrapper">
+  <aside class="dossier" id="dossier">
+    <!-- Akta (bez zmian) -->
+    <div class="dossier-lock">
+      Przeczytaj akta. Następnie potwierdź, że się z nimi zapoznałeś, aby rozpocząć przesłuchanie.
+      <button id="acknowledge-btn">Zapoznałem się z aktami</button>
+    </div>
+  </aside>
+
+  <main class="terminal" role="main" aria-label="Terminal przesłuchania">
+    <header class="terminal-header">
+      <div class="header-top">
+        <span class="system-tag">NCPD // Terminal v2.77.04</span>
+        <div>
+          <span class="status-led">Połączenie szyfrowane</span>
+          <button class="tts-toggle" id="tts-toggle">GŁOS: ON</button>
+        </div>
+      </div>
+      <h1>&gt; Przesłuchanie_AI</h1>
+    </header>
+
+    <section class="chat-window" id="chat-window"></section>
+
+    <form class="input-area" id="chat-form">
+      <span class="input-prompt">&gt;</span>
+      <input type="text" id="user-input" placeholder="Wpisz pytanie do podejrzanego...">
+      <button type="submit" id="send-btn">Wyślij</button>
+    </form>
+  </main>
+</div>
+
+<script>
+const API_BASE = "https://sklep-6thw.onrender.com"; // ← na Render zmienisz na URL usługi
+
+let ttsEnabled = true;
+const conversationHistory = [];
+
+async function fetchAIResponse(userMessage) {
+  const response = await fetch(`${API_BASE}/api/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: userMessage, history: conversationHistory })
+  });
+  const data = await response.json();
+  return data.reply;
+}
+
+async function speak(text) {
+  if (!ttsEnabled) return;
+  const res = await fetch(`${API_BASE}/api/tts`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text })
+  });
+  const blob = await res.blob();
+  const audio = new Audio(URL.createObjectURL(blob));
+  audio.play();
+}
+
+function addToHistory(role, content) {
+  conversationHistory.push({ role, content });
+  if (conversationHistory.length > 12) conversationHistory.shift();
+}
+
+// TU w handleSendMessage:
+// addToHistory("user", message);
+// const aiResponse = await fetchAIResponse(message);
+// addToHistory("assistant", aiResponse);
+// speak(aiResponse);
+
+document.getElementById("tts-toggle").addEventListener("click", () => {
+  ttsEnabled = !ttsEnabled;
+  document.getElementById("tts-toggle").textContent = `GŁOS: ${ttsEnabled ? "ON" : "OFF"}`;
+});
+</script>
+</body>
+</html>
