@@ -1,0 +1,52 @@
+<div class="collection-header">
+  <div class="container">
+    <h1>{{ collection.title }}</h1>
+    <p>{{ collection.description }}</p>
+  </div>
+</div>
+
+<div class="collection-layout">
+  <div class="filter-sort-bar">
+    <div class="filter-chips">
+      <button class="chip is-active" data-filter="all">All</button>
+      <button class="chip" data-filter="chargers">Chargers</button>
+      <button class="chip" data-filter="power-banks">Power Banks</button>
+      <button class="chip" data-filter="cables">Cables</button>
+      <button class="chip" data-filter="wireless">Wireless</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span class="collection-count">{{ collection.products_count }} products</span>
+      <select class="sort-select" aria-label="Sort products">
+        <option value="">Sort by: Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="product-grid">
+    {% for product in collection.products %}
+      {% render 'product-card', product: product %}
+    {% else %}
+      <p style="grid-column:1/-1;text-align:center;padding:60px;color:var(--color-muted);">No products in this collection yet.</p>
+    {% endfor %}
+  </div>
+
+  {% if paginate.pages > 1 %}
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:48px;">
+      {% if paginate.previous %}
+        <a href="{{ paginate.previous.url }}" class="btn btn--outline-dark btn--sm">← Previous</a>
+      {% endif %}
+      {% for part in paginate.parts %}
+        {% if part.is_link %}
+          <a href="{{ part.url }}" class="chip">{{ part.title }}</a>
+        {% else %}
+          <span class="chip is-active" aria-current="page">{{ part.title }}</span>
+        {% endif %}
+      {% endfor %}
+      {% if paginate.next %}
+        <a href="{{ paginate.next.url }}" class="btn btn--outline-dark btn--sm">Next →</a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,99 @@
+{% comment %}
+  Renders a product card.
+  Accepts: product (product object)
+{% endcomment %}
+
+{%- assign on_sale = false -%}
+{%- if product.compare_at_price > product.price -%}
+  {%- assign on_sale = true -%}
+{%- endif -%}
+{%- assign sold_out = false -%}
+{%- unless product.available -%}
+  {%- assign sold_out = true -%}
+{%- endunless -%}
+
+<div class="product-card" data-category="{{ product.type | handleize }}" data-price="{{ product.price | divided_by: 100.0 }}">
+  <div class="product-card__media">
+    {% if product.featured_image %}
+      <a href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+        <img
+          src="{{ product.featured_image | img_url: '480x360', crop: 'center' }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          loading="lazy"
+          width="480"
+          height="360"
+        >
+      </a>
+    {% else %}
+      <a href="{{ product.url }}" tabindex="-1" aria-hidden="true" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:4rem;">
+        {% if product.type contains 'Power Bank' or product.type contains 'power' %}🔋
+        {% elsif product.type contains 'Cable' or product.type contains 'cable' %}🔌
+        {% elsif product.type contains 'Wireless' or product.type contains 'wireless' %}📶
+        {% elsif product.type contains 'Car' %}🚗
+        {% else %}⚡{% endif %}
+      </a>
+    {% endif %}
+
+    <!-- Badge -->
+    {%- if sold_out -%}
+      <span class="product-badge product-badge--sold-out">Sold Out</span>
+    {%- elsif on_sale -%}
+      <span class="product-badge product-badge--sale">Sale</span>
+    {%- elsif product.created_at > 'now' | date: '%s' | minus: 2592000 | date: '%Y-%m-%d' -%}
+      <span class="product-badge product-badge--new">New</span>
+    {%- endif -%}
+
+    <!-- Wishlist -->
+    <button
+      class="product-card__wishlist"
+      data-wishlist-btn
+      data-product-id="{{ product.id }}"
+      aria-label="Add to wishlist"
+    >♡</button>
+  </div>
+
+  <div class="product-card__body">
+    {% if product.vendor != blank %}
+      <div class="product-card__vendor">{{ product.vendor }}</div>
+    {% elsif product.type != blank %}
+      <div class="product-card__vendor">{{ product.type }}</div>
+    {% endif %}
+
+    <a href="{{ product.url }}" class="product-card__title">{{ product.title }}</a>
+
+    <div class="product-card__rating" aria-label="4.8 out of 5 stars">
+      <span class="product-card__stars" aria-hidden="true">★★★★★</span>
+      <span class="product-card__review-count">({{ product.metafields.reviews.rating_count | default: '—' }})</span>
+    </div>
+
+    <div class="product-card__price-row">
+      <span class="product-card__price{% if on_sale %} product-card__price--sale{% endif %}">
+        {{ product.price | money }}
+      </span>
+      {% if on_sale %}
+        <span class="product-card__price-compare">{{ product.compare_at_price | money }}</span>
+        <span class="product-card__save">
+          Save {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price | round }}%
+        </span>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="product-card__footer">
+    {% unless sold_out %}
+      <button
+        class="btn--add-to-cart"
+        data-quick-add
+        data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+        aria-label="Add {{ product.title | escape }} to cart"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Add to Cart
+      </button>
+    {% else %}
+      <button class="btn--add-to-cart" disabled style="background:var(--color-muted);cursor:not-allowed;">
+        Sold Out
+      </button>
+    {% endunless %}
+  </div>
+</div>

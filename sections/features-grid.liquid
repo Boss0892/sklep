@@ -1,0 +1,128 @@
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="eyebrow">{{ section.settings.eyebrow | default: 'WHY US' }}</div>
+      <h2>{{ section.settings.title | default: 'Why Customers Love ChargeHub' }}</h2>
+      {% if section.settings.subtitle != blank %}
+        <p>{{ section.settings.subtitle }}</p>
+      {% endif %}
+    </div>
+
+    <div class="features-grid">
+      {% for block in section.blocks %}
+        <div class="feature-card" {{ block.shopify_attributes }}>
+          <div class="feature-card__icon" aria-hidden="true">{{ block.settings.emoji | default: '✅' }}</div>
+          <h3 class="feature-card__title">{{ block.settings.title }}</h3>
+          <p class="feature-card__desc">{{ block.settings.description }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Features Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "WHY US"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Why Customers Love ChargeHub"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "emoji",
+          "label": "Emoji icon",
+          "default": "⚡"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Ultra Fast Charging"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Our GaN chargers deliver up to 140W for the fastest possible charge on all compatible devices."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Features Grid",
+      "category": "Promotional",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "⚡",
+            "title": "Ultra Fast Charging",
+            "description": "Our GaN chargers deliver up to 140W — charge your laptop and phone simultaneously at full speed."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "🔋",
+            "title": "High Capacity",
+            "description": "Power banks up to 26800mAh keep your devices running all day, even on the longest trips."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "🌍",
+            "title": "Universal Compatibility",
+            "description": "Works with iPhone, Android, iPad, MacBook, and any USB-C or USB-A device."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "🛡️",
+            "title": "Safety Certified",
+            "description": "CE, FCC and RoHS certified with over-voltage, over-current and short-circuit protection built in."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "🚚",
+            "title": "Fast & Free Shipping",
+            "description": "Free tracked shipping on all orders over $50. Most orders dispatched within 24 hours."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "emoji": "↩️",
+            "title": "Hassle-Free Returns",
+            "description": "Not happy? Return within 30 days for a full refund — no questions asked."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

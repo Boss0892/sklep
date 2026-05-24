@@ -1,0 +1,58 @@
+<div class="trust-bar">
+  <div class="trust-bar__inner">
+    <div class="trust-bar__item">
+      <span class="trust-bar__icon">🚚</span>
+      <span>{{ section.settings.item_1 | default: 'Free Shipping Over $50' }}</span>
+    </div>
+    <div class="trust-bar__item">
+      <span class="trust-bar__icon">↩️</span>
+      <span>{{ section.settings.item_2 | default: '30-Day Free Returns' }}</span>
+    </div>
+    <div class="trust-bar__item">
+      <span class="trust-bar__icon">🔒</span>
+      <span>{{ section.settings.item_3 | default: 'Secure Checkout' }}</span>
+    </div>
+    <div class="trust-bar__item">
+      <span class="trust-bar__icon">⚡</span>
+      <span>{{ section.settings.item_4 | default: 'Fast Dispatch' }}</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Trust Bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "item_1",
+      "label": "Item 1",
+      "default": "Free Shipping Over $50"
+    },
+    {
+      "type": "text",
+      "id": "item_2",
+      "label": "Item 2",
+      "default": "30-Day Free Returns"
+    },
+    {
+      "type": "text",
+      "id": "item_3",
+      "label": "Item 3",
+      "default": "Secure Checkout"
+    },
+    {
+      "type": "text",
+      "id": "item_4",
+      "label": "Item 4",
+      "default": "Fast Dispatch"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust Bar",
+      "category": "Promotional"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,75 @@
+<section class="section section--surface-2">
+  <div class="container">
+    <div class="newsletter__box">
+      <div style="font-size:2rem;margin-bottom:12px;" aria-hidden="true">📧</div>
+      <h2>{{ section.settings.title | default: 'Get Exclusive Deals' }}</h2>
+      <p>{{ section.settings.subtitle | default: 'Subscribe for early access to new products, members-only discounts, and charging tips.' }}</p>
+      {% form 'customer', id: 'newsletter-form', class: 'newsletter-form' %}
+        {{ form.errors | default_errors }}
+        {% if form.posted_successfully? %}
+          <p style="color:var(--color-success);font-weight:600;">🎉 You're subscribed! Check your inbox for your welcome discount.</p>
+        {% else %}
+          <input
+            type="email"
+            name="contact[email]"
+            placeholder="{{ section.settings.placeholder | default: 'Your email address' }}"
+            class="newsletter-form__input"
+            required
+            autocomplete="email"
+          >
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <button type="submit" class="btn btn--primary">
+            {{ section.settings.btn_label | default: 'Subscribe' }}
+          </button>
+        {% endif %}
+      {% endform %}
+      {% if section.settings.note != blank %}
+        <p style="font-size:0.78rem;margin-top:14px;color:var(--color-muted);">{{ section.settings.note }}</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Get Exclusive Deals"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Subscribe for early access to new products, members-only discounts, and charging tips."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button label",
+      "default": "Subscribe & Save 10%"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Fine print",
+      "default": "No spam, ever. Unsubscribe any time."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter",
+      "category": "Email capture"
+    }
+  ]
+}
+{% endschema %}

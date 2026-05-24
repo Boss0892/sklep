@@ -1,0 +1,10 @@
+{
+  "current": {
+    "color_primary": "#1a73e8",
+    "color_accent": "#f97316",
+    "color_background": "#f8faff",
+    "color_text": "#1e2535",
+    "font_body": "inter_n4",
+    "font_heading": "inter_n8"
+  }
+}

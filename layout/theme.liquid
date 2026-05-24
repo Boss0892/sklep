@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1a73e8">
+
+  <title>
+    {{ page_title }}{% unless page_title contains shop.name %} — {{ shop.name }}{% endunless %}
+  </title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  <link rel="canonical" href="{{ canonical_url }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  {{ content_for_header }}
+
+  {{ 'style.css' | asset_url | stylesheet_tag }}
+</head>
+
+<body class="page-wrapper">
+
+  {% section 'announcement-bar' %}
+  {% section 'header' %}
+
+  <main class="page-content" id="main-content">
+    {{ content_for_layout }}
+  </main>
+
+  {% section 'footer' %}
+
+  <!-- Cart Drawer Overlay -->
+  <div class="cart-drawer__overlay" aria-hidden="true"></div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" id="cart-drawer" aria-label="Shopping cart" role="dialog">
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__title">Your Cart</h2>
+      <button class="cart-drawer__close" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-drawer__body" id="cart-drawer-body">
+      <div class="cart-drawer__empty">
+        <div class="cart-drawer__empty-icon">🛒</div>
+        <p>Your cart is empty</p>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn--primary btn--sm" style="margin-top:12px">Shop Now</a>
+      </div>
+    </div>
+    <div class="cart-drawer__footer">
+      <div class="cart-drawer__subtotal">
+        <span>Subtotal</span>
+        <span class="cart-drawer__subtotal-value">$0.00</span>
+      </div>
+      <p class="cart-drawer__shipping-note">🚚 Free shipping on orders over $50</p>
+      <a href="{{ routes.cart_url }}" class="btn btn--outline-dark btn--full">View Cart</a>
+      <a href="/checkout" class="btn btn--primary btn--full">Checkout →</a>
+    </div>
+  </div>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="mobile-drawer" aria-label="Navigation menu">
+    <div class="mobile-drawer__overlay"></div>
+    <div class="mobile-drawer__panel">
+      <div class="mobile-drawer__header">
+        <div class="site-logo">
+          <div class="site-logo__icon">⚡</div>
+          <span>Charge<span class="site-logo__accent">Hub</span></span>
+        </div>
+        <button class="mobile-drawer__close" aria-label="Close menu">✕</button>
+      </div>
+      <a href="{{ routes.root_url }}" class="mobile-drawer__link">Home</a>
+      <a href="{{ routes.all_products_collection_url }}" class="mobile-drawer__link">All Products</a>
+      {% for link in linklists.main-menu.links %}
+        <a href="{{ link.url }}" class="mobile-drawer__link">{{ link.title }}</a>
+      {% endfor %}
+      <div style="margin-top:16px; padding-top:16px; border-top:1px solid var(--color-border);">
+        <a href="{{ routes.cart_url }}" class="btn btn--primary btn--full">View Cart</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" aria-live="polite"></div>
+
+  {{ 'main.js' | asset_url | script_tag }}
+</body>
+</html>
