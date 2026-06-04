@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_bg }}">
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+
+    {% if settings.font_heading != blank %}{{ settings.font_heading | font_face: font_display: 'swap' }}{% endif %}
+    {% if settings.font_body != blank %}{{ settings.font_body | font_face: font_display: 'swap' }}{% endif %}
+    {% if settings.font_mono != blank %}{{ settings.font_mono | font_face: font_display: 'swap' }}{% endif %}
+
+    <style>
+      :root{
+        --color-bg: {{ settings.color_bg | default: '#0d0d0d' }};
+        --color-surface: {{ settings.color_surface | default: '#161616' }};
+        --color-border: {{ settings.color_border | default: '#2a2a2a' }};
+        --color-accent: {{ settings.color_accent | default: '#00e5ff' }};
+        --color-accent-2: {{ settings.color_accent_2 | default: '#ff6b00' }};
+        --color-text: {{ settings.color_text | default: '#f0f0f0' }};
+        --color-text-muted: {{ settings.color_text_muted | default: '#888888' }};
+        --color-white: #ffffff;
+        --font-heading: {{ settings.font_heading.family | default: 'Barlow Condensed' }}, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        --font-body: {{ settings.font_body.family | default: 'DM Sans' }}, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        --font-mono: {{ settings.font_mono.family | default: 'Space Mono' }}, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      }
+      body{background:var(--color-bg);color:var(--color-text)}
+      .critical{display:none}
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700&family=DM+Sans:wght@400;600&family=Space+Mono:wght@400;700&display=swap">
+
+    <link rel="preload" as="style" href="{{ 'base.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" as="style" href="{{ 'theme.css' | asset_url }}" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>{{ 'base.css' | asset_url | stylesheet_tag }}{{ 'theme.css' | asset_url | stylesheet_tag }}</noscript>
+
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <script src="{{ 'cart.js' | asset_url }}" defer></script>
+    <script src="{{ 'product.js' | asset_url }}" defer></script>
+    <script src="{{ 'collection.js' | asset_url }}" defer></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#MainContent">Przejdź do treści</a>
+
+    <div class="site">
+      {% if settings.announcement_enabled %}
+        {% section 'announcement-bar' %}
+      {% endif %}
+      {% section 'header' %}
+
+      <main id="MainContent" role="main">
+        {{ content_for_layout }}
+      </main>
+
+      {% section 'footer' %}
+    </div>
+
+    {% render 'icon-sprite' %}
+  </body>
+</html>

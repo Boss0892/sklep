@@ -1,0 +1,34 @@
+{
+  "general": {
+    "search": { "placeholder": "Szukaj produktów..." },
+    "cart": { "title": "Koszyk", "empty": "Twój koszyk jest pusty" },
+    "currency": { "pln": "zł" },
+    "password_page": { "title": "Strona zabezpieczona hasłem", "opening_soon": "Wkrótce otwarcie." }
+  },
+  "products": {
+    "add_to_cart": "Dodaj do koszyka",
+    "buy_now": "Kup teraz",
+    "sold_out": "Wyprzedane",
+    "unavailable": "Niedostępny",
+    "quantity": "Ilość",
+    "vendor": "Producent",
+    "sku": "SKU",
+    "maybe_you_like": "Może Cię zainteresować"
+  },
+  "collections": {
+    "sort_by": "Sortuj według",
+    "filter": "Filtry",
+    "load_more": "Załaduj więcej",
+    "no_results": "Brak produktów spełniających kryteria"
+  },
+  "customer": {
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "logout": "Wyloguj się",
+    "account": "Moje konto"
+  },
+  "footer": {
+    "copyright": "Wszelkie prawa zastrzeżone"
+  }
+}
+

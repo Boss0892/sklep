@@ -1,0 +1,20 @@
+<main class="container" style="padding:56px 0">
+  <div class="surface" style="padding:18px; width:min(520px,100%); margin-inline:auto">
+    <h1 class="section-title" style="margin:0 0 14px 0">{{ 'customer.login' | t }}</h1>
+    {% form 'customer_login' %}
+      <div class="stack">
+        <label>
+          <span class="product__label">Email</span>
+          <input class="search__input" type="email" name="customer[email]" autocomplete="email" required>
+        </label>
+        <label>
+          <span class="product__label">Hasło</span>
+          <input class="search__input" type="password" name="customer[password]" autocomplete="current-password" required>
+        </label>
+        <button class="btn btn--cta" type="submit">{{ 'customer.login' | t }}</button>
+        <a class="btn btn--outline" href="{{ routes.account_register_url }}">{{ 'customer.register' | t }}</a>
+      </div>
+    {% endform %}
+  </div>
+</main>
+

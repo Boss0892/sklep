@@ -1,0 +1,44 @@
+{% section 'breadcrumbs' %}
+
+<main class="container" style="padding:26px 0 56px 0">
+  <div class="surface" style="padding:24px">
+    <p class="kicker">O nas</p>
+    <h1 class="section-title" style="margin:0 0 10px 0">{{ page.title }}</h1>
+    <p class="muted" style="margin:0">Techniczny sklep dla fanów e-mobility. Części, które robią robotę.</p>
+  </div>
+
+  <div class="grid grid--2" style="margin-top:18px">
+    <div class="surface" style="padding:18px">
+      <p class="footer__title" style="margin:0 0 10px 0">Historia</p>
+      <div class="muted">{{ page.content }}</div>
+    </div>
+    <div class="surface" style="padding:18px">
+      <p class="footer__title" style="margin:0 0 10px 0">Dlaczego my</p>
+      <div class="grid" style="gap:12px">
+        <div class="surface" style="padding:14px">
+          <p class="footer__title" style="margin:0 0 6px 0">Kompatybilność</p>
+          <p class="muted" style="margin:0">Sprzęt dobieramy pod modele, nie pod marketing.</p>
+        </div>
+        <div class="surface" style="padding:14px">
+          <p class="footer__title" style="margin:0 0 6px 0">Szybka wysyłka</p>
+          <p class="muted" style="margin:0">24–48h i jedziesz dalej.</p>
+        </div>
+        <div class="surface" style="padding:14px">
+          <p class="footer__title" style="margin:0 0 6px 0">Wsparcie</p>
+          <p class="muted" style="margin:0">Pytasz — odpowiadamy konkretnie.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="surface" style="padding:18px; margin-top:18px">
+    <p class="footer__title" style="margin:0 0 10px 0">Obsługiwane modele</p>
+    <div class="product__models">
+      {% render 'model-tag', model: 'Kukirin G4' %}
+      {% render 'model-tag', model: 'Kukirin G2' %}
+      {% render 'model-tag', model: 'Kukirin G2 Pro' %}
+      {% render 'model-tag', model: 'Kukirin G2 Max' %}
+    </div>
+  </div>
+</main>
+

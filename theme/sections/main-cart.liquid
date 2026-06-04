@@ -1,0 +1,61 @@
+<section class="cart" data-cart-root data-free-shipping-threshold-cents="{{ section.settings.free_shipping_threshold | times: 100 }}">
+  <div class="container">
+    <h1 class="section-title" style="margin:16px 0 14px 0">{{ 'general.cart.title' | t }}</h1>
+
+    {%- if cart.item_count == 0 -%}
+      <div class="surface" style="padding:18px">
+        <p class="muted" style="margin:0 0 12px 0">{{ 'general.cart.empty' | t }}</p>
+        <a class="btn btn--cta" href="{{ routes.all_products_collection_url }}">Kontynuuj zakupy</a>
+      </div>
+    {%- else -%}
+      <div class="cart__grid">
+        <div class="cart__items surface">
+          {%- for item in cart.items -%}
+            <div class="cart-row" data-line-row="{{ forloop.index }}">
+              <a class="cart-row__img" href="{{ item.url }}" aria-label="{{ item.product.title | escape }}">
+                {%- if item.image -%}
+                  <img src="{{ item.image | image_url: width: 160 }}" alt="{{ item.image.alt | default: item.product.title | escape }}" loading="lazy" width="80" height="80">
+                {%- endif -%}
+              </a>
+              <div class="cart-row__meta">
+                <a class="cart-row__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                {%- if item.variant.title != 'Default Title' -%}
+                  <p class="muted" style="margin:0">{{ item.variant.title }}</p>
+                {%- endif -%}
+                <p class="muted" style="margin:0">{{ item.final_price | money }}</p>
+              </div>
+              <div class="cart-row__qty">
+                <button class="btn cart-row__qty-btn" type="button" data-qty-btn data-line="{{ forloop.index }}" data-delta="-1" aria-label="Zmniejsz ilość">-</button>
+                <input class="cart-row__qty-input" type="number" min="0" value="{{ item.quantity }}" data-line-input="{{ forloop.index }}" aria-label="Ilość">
+                <button class="btn cart-row__qty-btn" type="button" data-qty-btn data-line="{{ forloop.index }}" data-delta="1" aria-label="Zwiększ ilość">+</button>
+                <button class="btn cart-row__remove" type="button" data-remove-btn data-line="{{ forloop.index }}" aria-label="Usuń">×</button>
+              </div>
+              <div class="cart-row__total price" data-line-total>{{ item.final_line_price | money }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <aside class="cart__summary surface">
+          <p class="footer__title" style="margin:0 0 10px 0">Podsumowanie</p>
+          <div class="cart__sum-row">
+            <span class="muted">Suma częściowa</span>
+            <span class="price" data-cart-subtotal>{{ cart.items_subtotal_price | money }}</span>
+          </div>
+          <p class="muted cart__ship" data-free-shipping hidden></p>
+          <a class="btn btn--cta" href="{{ routes.checkout_url }}">Przejdź do kasy</a>
+          <a class="btn btn--outline" href="{{ routes.all_products_collection_url }}">Kontynuuj zakupy</a>
+        </aside>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main cart",
+  "settings": [
+    { "type": "number", "id": "free_shipping_threshold", "label": "Próg darmowej dostawy (PLN)", "default": 299 }
+  ],
+  "presets": [{ "name": "Main cart" }]
+}
+{% endschema %}

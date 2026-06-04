@@ -1,0 +1,43 @@
+<section class="featured">
+  <div class="container">
+    <div class="featured__head">
+      <h2 class="section-title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.collection != blank -%}
+        <a class="btn btn--outline" href="{{ section.settings.collection.url }}">{{ section.settings.view_all_label }}</a>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.collection == blank -%}
+      <div class="surface" style="padding:16px">
+        <p class="muted" style="margin:0">Wybierz kolekcję w ustawieniach sekcji, aby pokazać produkty.</p>
+      </div>
+    {%- else -%}
+      {%- assign products = section.settings.collection.products -%}
+      {%- if products.size == 0 -%}
+        <div class="surface" style="padding:16px">
+          <p class="muted" style="margin:0">Ta kolekcja nie ma jeszcze produktów.</p>
+        </div>
+      {%- else -%}
+        <div class="grid grid--4 featured__grid">
+          {%- for product in products limit: section.settings.limit -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Nagłówek", "default": "BESTSELLERY" },
+    { "type": "collection", "id": "collection", "label": "Kolekcja" },
+    { "type": "range", "id": "limit", "label": "Limit produktów", "min": 2, "max": 12, "step": 1, "default": 8 },
+    { "type": "text", "id": "view_all_label", "label": "Tekst przycisku", "default": "Pokaż wszystkie" }
+  ],
+  "presets": [{ "name": "Featured collection" }]
+}
+{% endschema %}
+

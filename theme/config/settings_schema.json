@@ -1,0 +1,158 @@
+[
+  {
+    "name": "Branding",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo"
+      },
+      {
+        "type": "text",
+        "id": "store_name",
+        "label": "Nazwa sklepu",
+        "default": "SKLEP HULAJNOGI"
+      }
+    ]
+  },
+  {
+    "name": "Kolory",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Tło",
+        "default": "#0d0d0d"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Powierzchnie (karty/panele)",
+        "default": "#161616"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Obramowania",
+        "default": "#2a2a2a"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Akcent (cyjan)",
+        "default": "#00e5ff"
+      },
+      {
+        "type": "color",
+        "id": "color_accent_2",
+        "label": "CTA (pomarańczowy)",
+        "default": "#ff6b00"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Tekst",
+        "default": "#f0f0f0"
+      },
+      {
+        "type": "color",
+        "id": "color_text_muted",
+        "label": "Tekst drugorzędny",
+        "default": "#888888"
+      }
+    ]
+  },
+  {
+    "name": "Typografia",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Nagłówki",
+        "default": "barlow_condensed_n7"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Tekst",
+        "default": "dm_sans_n4"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_mono",
+        "label": "Akcenty/mono",
+        "default": "space_mono_n4"
+      }
+    ]
+  },
+  {
+    "name": "Announcement bar",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "announcement_enabled",
+        "label": "Włącz pasek ogłoszeń",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Tekst paska ogłoszeń",
+        "default": "🔩 Darmowa dostawa od 299 zł | Części do Kukirin G4, G2, G2 Pro, G2 Max"
+      }
+    ]
+  },
+  {
+    "name": "Kontakt i social",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Email kontaktowy",
+        "default": "kontakt@twoj-sklep.pl"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "Facebook"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "YouTube"
+      }
+    ]
+  },
+  {
+    "name": "Stopka",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "footer_bottom_text",
+        "label": "Tekst dolnego paska",
+        "default": "Wszystkie prawa zastrzeżone."
+      }
+    ]
+  },
+  {
+    "name": "Newsletter",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "newsletter_enabled",
+        "label": "Włącz sekcję newslettera",
+        "default": true
+      }
+    ]
+  }
+]

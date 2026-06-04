@@ -1,0 +1,43 @@
+<section class="hero">
+  <div class="hero__bg">
+    {%- if section.settings.background_image -%}
+      <img
+        src="{{ section.settings.background_image | image_url: width: 2200 }}"
+        alt=""
+        loading="eager"
+        width="2200"
+        height="{{ 2200 | divided_by: section.settings.background_image.aspect_ratio | round }}"
+      >
+    {%- endif -%}
+  </div>
+
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <p class="kicker">{{ section.settings.kicker }}</p>
+      <h1 class="hero__title">{{ section.settings.heading | newline_to_br }}</h1>
+      <p class="hero__subtitle muted">{{ section.settings.subheading }}</p>
+      <div class="hero__actions">
+        <a class="btn btn--cta" href="{{ section.settings.primary_link }}">{{ section.settings.primary_label }}</a>
+        <a class="btn btn--outline" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero banner",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Custom Parts / Kukirin" },
+    { "type": "textarea", "id": "heading", "label": "Nagłówek", "default": "TWOJA HULAJNOGA.\nTWOJE ZASADY." },
+    { "type": "text", "id": "subheading", "label": "Podtytuł", "default": "Części i akcesoria do customowania Kukirin G4, G2, G2 Pro i G2 Max" },
+    { "type": "text", "id": "primary_label", "label": "Przycisk 1 — tekst", "default": "Przejdź do sklepu" },
+    { "type": "url", "id": "primary_link", "label": "Przycisk 1 — link", "default": "/collections/all" },
+    { "type": "text", "id": "secondary_label", "label": "Przycisk 2 — tekst", "default": "Nasze modele" },
+    { "type": "url", "id": "secondary_link", "label": "Przycisk 2 — link", "default": "/collections" },
+    { "type": "image_picker", "id": "background_image", "label": "Tło (opcjonalne)" }
+  ],
+  "presets": [{ "name": "Hero banner" }]
+}
+{% endschema %}
+

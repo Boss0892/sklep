@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "hero": { "type": "hero-banner" },
+    "benefits": { "type": "benefits-bar" },
+    "featured": { "type": "featured-collection" },
+    "models": { "type": "model-compatibility" },
+    "promo": { "type": "promo-banner" },
+    "newsletter": { "type": "newsletter" },
+    "richtext": { "type": "rich-text" }
+  },
+  "order": ["hero", "benefits", "featured", "models", "promo", "newsletter", "richtext"]
+}
+

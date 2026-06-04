@@ -1,0 +1,33 @@
+<main class="container" style="padding:56px 0">
+  <div class="surface" style="padding:18px">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap">
+      <h1 class="section-title" style="margin:0">{{ 'customer.account' | t }}</h1>
+      <a class="btn btn--outline" href="{{ routes.account_logout_url }}">{{ 'customer.logout' | t }}</a>
+    </div>
+
+    <div class="divider" style="margin:16px 0"></div>
+
+    <div class="grid grid--2">
+      <div>
+        <p class="footer__title" style="margin:0 0 10px 0">Dane</p>
+        <p class="muted" style="margin:0">{{ customer.email }}</p>
+      </div>
+      <div>
+        <p class="footer__title" style="margin:0 0 10px 0">Zamówienia</p>
+        {%- if customer.orders.size == 0 -%}
+          <p class="muted" style="margin:0">Brak zamówień.</p>
+        {%- else -%}
+          <ul role="list" style="padding:0; margin:0; display:grid; gap:10px">
+            {%- for order in customer.orders -%}
+              <li class="surface" style="padding:12px">
+                <a href="{{ order.customer_url }}">{{ order.name }}</a>
+                <div class="muted">{{ order.created_at | date: "%d.%m.%Y" }} • {{ order.total_price | money }}</div>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</main>
+

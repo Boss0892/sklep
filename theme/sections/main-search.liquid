@@ -1,0 +1,34 @@
+<section class="search">
+  <div class="container">
+    <h1 class="section-title" style="margin:16px 0 14px 0">Szukaj</h1>
+
+    <form class="search__form surface" action="{{ routes.search_url }}" method="get" role="search">
+      <input class="search__input" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}">
+      <button class="btn btn--cta" type="submit">Szukaj</button>
+    </form>
+
+    {%- if search.performed -%}
+      {%- if search.results_count == 0 -%}
+        <div class="surface" style="padding:16px; margin-top:16px">
+          <p class="muted" style="margin:0">Brak wyników.</p>
+        </div>
+      {%- else -%}
+        <div class="grid grid--3" style="margin-top:16px">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}
+              {% render 'product-card', product: item %}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main search",
+  "settings": [],
+  "presets": [{ "name": "Main search" }]
+}
+{% endschema %}

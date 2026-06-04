@@ -1,0 +1,164 @@
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign model_tags = ''
+  for t in product.tags
+    assign t_up = t | upcase
+    if t_up == 'G4' or t_up == 'G2' or t_up contains 'G2 PRO' or t_up contains 'G2 MAX'
+      assign model_tags = model_tags | append: t | append: '|'
+    endif
+  endfor
+-%}
+
+<section class="product">
+  <div class="container product__grid">
+    <div class="product__media surface" data-product-gallery>
+      {%- if product.images.size > 0 -%}
+        <img
+          class="product__main"
+          data-gallery-main
+          src="{{ product.featured_image | image_url: width: 1400 }}"
+          alt="{{ product.featured_image.alt | default: product.title | escape }}"
+          width="1400"
+          height="{{ 1400 | divided_by: product.featured_image.aspect_ratio | round }}"
+        >
+        <div class="product__thumbs">
+          {%- for image in product.images -%}
+            <button
+              class="product__thumb"
+              type="button"
+              data-gallery-thumb
+              data-src="{{ image | image_url: width: 1400 }}"
+              {% if image.id == product.featured_image.id %}data-active="true"{% endif %}
+              aria-label="Zobacz zdjęcie {{ forloop.index }}"
+            >
+              <img
+                src="{{ image | image_url: width: 240 }}"
+                alt="{{ image.alt | default: product.title | escape }}"
+                loading="lazy"
+                width="120"
+                height="{{ 120 | divided_by: image.aspect_ratio | round }}"
+              >
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <div class="product__empty" aria-hidden="true"></div>
+      {%- endif -%}
+
+      <dialog class="lightbox surface" data-lightbox aria-label="Podgląd zdjęcia">
+        <img data-lightbox-img alt="">
+        <form method="dialog" class="lightbox__close">
+          <button class="btn" type="submit">Zamknij</button>
+        </form>
+      </dialog>
+    </div>
+
+    <div class="product__info">
+      <h1 class="product__title">{{ product.title }}</h1>
+      {% render 'price', product: product, use_variant: true %}
+
+      <div class="product__models" aria-label="Kompatybilność">
+        {%- assign models = model_tags | split: '|' -%}
+        {%- for m in models -%}
+          {% render 'model-tag', model: m %}
+        {%- endfor -%}
+      </div>
+
+      <div class="product__desc">
+        {{ product.description }}
+      </div>
+
+      {% form 'product', product, class: 'product__form', data-ajax-add-to-cart: '' %}
+        {%- if product.has_only_default_variant == false -%}
+          <label class="product__label" for="VariantSelect-{{ section.id }}">Wariant</label>
+          <div class="product__select">
+            <select id="VariantSelect-{{ section.id }}" name="id">
+              {%- for variant in product.variants -%}
+                <option value="{{ variant.id }}" {% if variant.id == v.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+                  {{ variant.title }} — {{ variant.price | money }}
+                </option>
+              {%- endfor -%}
+            </select>
+            <svg class="icon" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+          </div>
+        {%- else -%}
+          <input type="hidden" name="id" value="{{ v.id }}">
+        {%- endif -%}
+
+        <label class="product__label" for="Quantity-{{ section.id }}">{{ 'products.quantity' | t }}</label>
+        <div class="product__qty" data-qty-root>
+          <button class="btn product__qty-btn" type="button" data-qty-minus aria-label="Zmniejsz ilość">-</button>
+          <input id="Quantity-{{ section.id }}" class="product__qty-input" type="number" name="quantity" min="1" value="1">
+          <button class="btn product__qty-btn" type="button" data-qty-plus aria-label="Zwiększ ilość">+</button>
+        </div>
+
+        <button class="btn btn--cta product__add" type="submit" data-loading-text="Dodawanie…">
+          {{ 'products.add_to_cart' | t }}
+        </button>
+
+        <div class="product__buy">
+          {{ form | payment_button }}
+        </div>
+      {% endform %}
+
+      <div class="product__accordion">
+        <details class="surface">
+          <summary>Specyfikacje techniczne</summary>
+          <div class="product__acc-body">
+            <p class="muted">Dodaj specyfikacje w opisie produktu lub w metapolach. Ten panel jest gotowy na Twoje dane.</p>
+          </div>
+        </details>
+        <details class="surface">
+          <summary>Kompatybilność</summary>
+          <div class="product__acc-body">
+            {%- if model_tags != blank -%}
+              <p class="muted" style="margin:0 0 10px 0">Ten produkt pasuje do:</p>
+              <div class="product__models">
+                {%- assign models2 = model_tags | split: '|' -%}
+                {%- for m in models2 -%}
+                  {% render 'model-tag', model: m %}
+                {%- endfor -%}
+              </div>
+            {%- else -%}
+              <p class="muted">Dodaj tagi modeli (G4, G2, G2 Pro, G2 Max), aby pokazać kompatybilność.</p>
+            {%- endif -%}
+          </div>
+        </details>
+        <details class="surface">
+          <summary>Wysyłka i zwroty</summary>
+          <div class="product__acc-body">
+            <p class="muted">Standard: wysyłka 24–48h. Zwroty zgodnie z polityką sklepu.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": {{ product.title | json }},
+      "description": {{ product.description | strip_html | truncate: 280 | json }},
+      "url": {{ canonical_url | json }},
+      "image": [{% for image in product.images limit: 6 %}{{ image | image_url: width: 1200 | prepend: "https:" | json }}{% unless forloop.last %},{% endunless %}{% endfor %}],
+      "sku": {{ v.sku | json }},
+      "brand": { "@type": "Brand", "name": {{ product.vendor | default: shop.name | json }} },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": {{ cart.currency.iso_code | json }},
+        "price": {{ v.price | divided_by: 100.0 | json }},
+        "availability": "https://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}",
+        "url": {{ canonical_url | json }}
+      }
+    }
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Main product",
+  "settings": [],
+  "presets": [{ "name": "Main product" }]
+}
+{% endschema %}

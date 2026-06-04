@@ -1,0 +1,52 @@
+<section class="benefits">
+  <div class="container">
+    <div class="benefits__grid">
+      <div class="benefit surface">
+        <div class="benefit__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="icon"><path fill="currentColor" d="M21 7.5l-2.5 2.5l-3-3L18 4.5a2 2 0 0 1 3 3Z"/><path fill="currentColor" d="M2 22l6.5-2.1l9.2-9.2l-3-3l-9.2 9.2L2 22Zm4.7-3.2l-1.8.6l.6-1.8l9.1-9.1l1.2 1.2l-9.1 9.1Z"/></svg>
+        </div>
+        <div class="benefit__text">
+          <p class="benefit__title">{{ section.settings.t1 }}</p>
+        </div>
+      </div>
+      <div class="benefit surface">
+        <div class="benefit__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="icon"><path fill="currentColor" d="M12 2l4.5 10H12L9 22l1.5-8H6L12 2Z"/></svg>
+        </div>
+        <div class="benefit__text">
+          <p class="benefit__title">{{ section.settings.t2 }}</p>
+        </div>
+      </div>
+      <div class="benefit surface">
+        <div class="benefit__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="icon"><path fill="currentColor" d="M12 2l7 4v6c0 5-3 9-7 10C8 21 5 17 5 12V6l7-4Zm0 2.3L7 6v6c0 4 2.2 7.2 5 8c2.8-.8 5-4 5-8V6l-5-1.7Z"/></svg>
+        </div>
+        <div class="benefit__text">
+          <p class="benefit__title">{{ section.settings.t3 }}</p>
+        </div>
+      </div>
+      <div class="benefit surface">
+        <div class="benefit__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" class="icon"><path fill="currentColor" d="M4 4h16v12H7.2L4 19.2V4Zm2 2v8.4L6.8 14H18V6H6Zm2 11h12v2H8v-2Z"/></svg>
+        </div>
+        <div class="benefit__text">
+          <p class="benefit__title">{{ section.settings.t4 }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefits bar",
+  "settings": [
+    { "type": "text", "id": "t1", "label": "Benefit 1", "default": "Części OEM i aftermarket" },
+    { "type": "text", "id": "t2", "label": "Benefit 2", "default": "Wysyłka 24–48h" },
+    { "type": "text", "id": "t3", "label": "Benefit 3", "default": "Gwarancja kompatybilności" },
+    { "type": "text", "id": "t4", "label": "Benefit 4", "default": "Wsparcie techniczne" }
+  ],
+  "presets": [{ "name": "Benefits bar" }]
+}
+{% endschema %}
+
