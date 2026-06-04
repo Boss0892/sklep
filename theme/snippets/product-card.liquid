@@ -1,0 +1,74 @@
+{%- liquid
+  assign p = product
+  assign v = p.selected_or_first_available_variant
+  assign badge_text = ''
+  assign badge_tone = 'default'
+
+  for t in p.tags
+    assign t_up = t | upcase
+    if t_up contains 'NOWO' or t_up == 'NEW'
+      assign badge_text = 'NOWOŚĆ'
+      assign badge_tone = 'accent'
+      break
+    elsif t_up contains 'BESTSELLER' or t_up contains 'BEST'
+      assign badge_text = 'BESTSELLER'
+      assign badge_tone = 'accent'
+      break
+    elsif t_up contains 'PROMO' or t_up contains 'PROMOCJA'
+      assign badge_text = 'PROMOCJA'
+      assign badge_tone = 'cta'
+      break
+    endif
+  endfor
+
+  assign model_tags = ''
+  for t in p.tags
+    assign t_up = t | upcase
+    if t_up == 'G4' or t_up == 'G2' or t_up contains 'G2 PRO' or t_up contains 'G2 MAX'
+      assign model_tags = model_tags | append: t | append: '|'
+    endif
+  endfor
+-%}
+
+<div class="product-card card card-hover">
+  <a class="product-card__media" href="{{ p.url }}" aria-label="{{ p.title | escape }}">
+    {%- if p.featured_image -%}
+      <img
+        src="{{ p.featured_image | image_url: width: 600 }}"
+        alt="{{ p.featured_image.alt | default: p.title | escape }}"
+        loading="lazy"
+        width="600"
+        height="{{ 600 | divided_by: p.featured_image.aspect_ratio | round }}"
+      >
+    {%- else -%}
+      <div class="product-card__placeholder" aria-hidden="true"></div>
+    {%- endif -%}
+    <div class="product-card__badges">
+      {% render 'badge', text: badge_text, tone: badge_tone %}
+    </div>
+  </a>
+
+  <div class="product-card__body">
+    <div class="product-card__models" aria-label="Kompatybilność">
+      {%- assign models = model_tags | split: '|' -%}
+      {%- for m in models -%}
+        {% render 'model-tag', model: m %}
+      {%- endfor -%}
+    </div>
+
+    <a class="product-card__title" href="{{ p.url }}">{{ p.title }}</a>
+    {% render 'price', product: p, use_variant: true %}
+
+    <div class="product-card__actions">
+      {%- if v and v.available -%}
+        <form method="post" action="/cart/add" data-ajax-add-to-cart>
+          <input type="hidden" name="id" value="{{ v.id }}">
+          <button class="btn btn--cta product-card__btn" type="submit" data-loading-text="Dodawanie…">{{ 'products.add_to_cart' | t }}</button>
+        </form>
+      {%- else -%}
+        <button class="btn product-card__btn" type="button" disabled>{{ 'products.sold_out' | t }}</button>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+

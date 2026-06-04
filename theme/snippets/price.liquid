@@ -1,0 +1,23 @@
+{%- liquid
+  assign p = product
+  assign v = p.selected_or_first_available_variant
+  if use_variant == false
+    assign v = null
+  endif
+
+  assign price = p.price
+  assign compare = p.compare_at_price
+
+  if v
+    assign price = v.price
+    assign compare = v.compare_at_price
+  endif
+-%}
+
+<div class="price">
+  <span class="price__current" data-price>{{ price | money }}</span>
+  {%- if compare and compare > price -%}
+    <span class="price__compare" aria-label="Cena przed promocją">{{ compare | money }}</span>
+  {%- endif -%}
+</div>
+

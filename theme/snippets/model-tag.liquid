@@ -1,0 +1,26 @@
+{%- liquid
+  assign model_key = model | default: tag | default: ''
+  assign model_key_up = model_key | upcase
+  assign tone = 'default'
+
+  if model_key_up == 'G4' or model_key_up contains 'G4'
+    assign tone = 'g4'
+    assign label = 'G4'
+  elsif model_key_up == 'G2' and model_key_up != 'G2 PRO' and model_key_up != 'G2 MAX'
+    assign tone = 'g2'
+    assign label = 'G2'
+  elsif model_key_up contains 'G2 PRO'
+    assign tone = 'g2pro'
+    assign label = 'G2 Pro'
+  elsif model_key_up contains 'G2 MAX'
+    assign tone = 'g2max'
+    assign label = 'G2 Max'
+  else
+    assign label = model_key
+  endif
+-%}
+
+{%- if label != blank -%}
+  <span class="model-pill model-pill--{{ tone }}">{{ label }}</span>
+{%- endif -%}
+
