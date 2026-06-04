@@ -16,6 +16,7 @@
     "social_facebook": "",
     "social_tiktok": "",
     "social_youtube": "",
+    "footer_bottom_text": "Wszystkie prawa zastrzeżone.",
     "newsletter_enabled": true,
     "font_heading": "barlow_condensed_n7",
     "font_body": "dm_sans_n4",
@@ -25,4 +26,3 @@
     "Default": {}
   }
 }
-

@@ -134,6 +134,17 @@
     ]
   },
   {
+    "name": "Stopka",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "footer_bottom_text",
+        "label": "Tekst dolnego paska",
+        "default": "Wszystkie prawa zastrzeżone."
+      }
+    ]
+  },
+  {
     "name": "Newsletter",
     "settings": [
       {
@@ -145,4 +156,3 @@
     ]
   }
 ]
-
