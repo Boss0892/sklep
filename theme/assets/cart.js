@@ -87,6 +87,28 @@
       });
     });
 
+    qsa("[data-remove-btn]", root).forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const line = Number(btn.dataset.line);
+        if (!line) return;
+        btn.disabled = true;
+        try {
+          const cart = await updateCart(line, 0);
+          const row = qs(`[data-line-row='${line}']`);
+          if (row) row.hidden = true;
+          const subtotal = qs("[data-cart-subtotal]");
+          if (subtotal) subtotal.textContent = formatMoney(cart.items_subtotal_price);
+          const thresholdCents = Number(root.dataset.freeShippingThresholdCents || 0);
+          renderFreeShipping(cart, thresholdCents);
+        } catch (err) {
+          alert(err?.message || "Błąd usuwania produktu.");
+        } finally {
+          btn.disabled = false;
+          document.dispatchEvent(new CustomEvent("sklep:cart-updated"));
+        }
+      });
+    });
+
     document.addEventListener("sklep:cart-updated", async () => {
       const cart = await refreshCart();
       if (!cart) return;
@@ -99,4 +121,3 @@
 
   document.addEventListener("DOMContentLoaded", initCartPage);
 })();
-

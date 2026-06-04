@@ -1,0 +1,95 @@
+<header class="header" role="banner">
+  <div class="container header__inner">
+    <a class="header__brand" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      <span class="header__mark" aria-hidden="true">
+        <svg class="icon"><use href="#icon-scooter"></use></svg>
+      </span>
+      {%- if settings.logo -%}
+        <img
+          class="header__logo"
+          src="{{ settings.logo | image_url: width: 220 }}"
+          width="220"
+          height="{{ 220 | divided_by: settings.logo.aspect_ratio | round }}"
+          alt="{{ settings.store_name | default: shop.name | escape }}"
+          loading="eager"
+        >
+      {%- else -%}
+        <span class="header__name">{{ settings.store_name | default: shop.name }}</span>
+      {%- endif -%}
+    </a>
+
+    <nav class="header__nav" aria-label="Nawigacja główna">
+      {%- if section.settings.menu != blank -%}
+        <ul class="header__links" role="list">
+          {%- for link in section.settings.menu.links -%}
+            <li><a class="header__link" href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <ul class="header__links" role="list">
+          <li><a class="header__link" href="{{ routes.all_products_collection_url }}">Sklep</a></li>
+          <li><a class="header__link" href="/collections">Modele</a></li>
+          <li><a class="header__link" href="/pages/o-nas">O nas</a></li>
+          <li><a class="header__link" href="/pages/kontakt">Kontakt</a></li>
+        </ul>
+      {%- endif -%}
+    </nav>
+
+    <div class="header__actions" aria-label="Skróty">
+      <a class="icon-btn" href="{{ routes.search_url }}" aria-label="Szukaj">
+        <svg class="icon" aria-hidden="true"><use href="#icon-search"></use></svg>
+      </a>
+      <a class="icon-btn" href="{{ routes.account_url }}" aria-label="Konto">
+        <svg class="icon" aria-hidden="true"><use href="#icon-user"></use></svg>
+      </a>
+      {% render 'cart-icon' %}
+
+      <button
+        class="header__burger"
+        type="button"
+        aria-label="Menu"
+        aria-controls="MobileNav"
+        aria-expanded="false"
+        data-mobile-menu-toggle
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-backdrop" data-mobile-backdrop data-open="false" aria-hidden="true"></div>
+  <aside class="mobile-drawer" id="MobileNav" data-mobile-drawer data-open="false" aria-label="Menu">
+    <div class="mobile-drawer__header">
+      <span class="kicker">Menu</span>
+      <button class="btn" type="button" data-mobile-menu-toggle aria-label="Zamknij menu">Zamknij</button>
+    </div>
+    <nav class="mobile-drawer__nav" aria-label="Nawigacja mobilna">
+      <ul role="list" class="mobile-drawer__links">
+        {%- if section.settings.menu != blank -%}
+          {%- for link in section.settings.menu.links -%}
+            <li><a class="mobile-drawer__link" href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        {%- else -%}
+          <li><a class="mobile-drawer__link" href="{{ routes.all_products_collection_url }}">Sklep</a></li>
+          <li><a class="mobile-drawer__link" href="/collections">Modele</a></li>
+          <li><a class="mobile-drawer__link" href="/pages/o-nas">O nas</a></li>
+          <li><a class="mobile-drawer__link" href="/pages/kontakt">Kontakt</a></li>
+        {%- endif -%}
+      </ul>
+    </nav>
+  </aside>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    }
+  ]
+}
+{% endschema %}
+

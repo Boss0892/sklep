@@ -1,0 +1,43 @@
+<section class="recs">
+  <div class="container">
+    <h2 class="section-title">{{ section.settings.heading }}</h2>
+
+    <div class="recs__grid grid grid--4" data-recs-grid>
+      {%- if recommendations and recommendations.products_count > 0 -%}
+        {%- for p in recommendations.products -%}
+          {% render 'product-card', product: p %}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- if product and (recommendations == blank or recommendations.products_count == 0) -%}
+  <script>
+    (function(){
+      const grid = document.currentScript?.previousElementSibling?.querySelector?.("[data-recs-grid]") || document.querySelector("[data-recs-grid]");
+      if(!grid) return;
+      const url = {{ routes.product_recommendations_url | json }} + "?section_id=" + {{ section.id | json }} + "&product_id=" + {{ product.id | json }} + "&limit=" + {{ section.settings.limit | json }};
+      fetch(url, { headers: { "Accept": "text/html" } })
+        .then(r => r.text())
+        .then(html => {
+          const doc = new DOMParser().parseFromString(html, "text/html");
+          const incoming = doc.querySelector("[data-recs-grid]");
+          if(!incoming) return;
+          grid.innerHTML = incoming.innerHTML;
+        })
+        .catch(() => {});
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product recommendations",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Nagłówek", "default": "MOŻE CIĘ ZAINTERESOWAĆ" },
+    { "type": "range", "id": "limit", "label": "Limit produktów", "min": 2, "max": 12, "step": 1, "default": 4 }
+  ],
+  "presets": [{ "name": "Product recommendations" }]
+}
+{% endschema %}

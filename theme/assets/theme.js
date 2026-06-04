@@ -16,15 +16,16 @@
   }
 
   function initMobileMenu() {
-    const button = qs("[data-mobile-menu-toggle]");
+    const buttons = qsa("[data-mobile-menu-toggle]");
     const drawer = qs("[data-mobile-drawer]");
     const backdrop = qs("[data-mobile-backdrop]");
-    if (!button || !drawer || !backdrop) return;
+    const primaryButton = buttons[0];
+    if (!primaryButton || !drawer || !backdrop) return;
 
     const open = () => {
       drawer.dataset.open = "true";
       backdrop.dataset.open = "true";
-      setExpanded(button, true);
+      setExpanded(primaryButton, true);
       document.documentElement.dataset.scrollLock = "true";
       drawer.querySelector("a, button")?.focus();
     };
@@ -32,15 +33,17 @@
     const close = () => {
       drawer.dataset.open = "false";
       backdrop.dataset.open = "false";
-      setExpanded(button, false);
+      setExpanded(primaryButton, false);
       delete document.documentElement.dataset.scrollLock;
-      button.focus();
+      primaryButton.focus();
     };
 
-    button.addEventListener("click", () => {
-      const isOpen = drawer.dataset.open === "true";
-      (isOpen ? close : open)();
-    });
+    buttons.forEach((btn) =>
+      btn.addEventListener("click", () => {
+        const isOpen = drawer.dataset.open === "true";
+        (isOpen ? close : open)();
+      })
+    );
     backdrop.addEventListener("click", close);
     document.addEventListener("keydown", (e) => {
       if (e.key !== "Escape") return;
@@ -119,6 +122,6 @@
     initMobileMenu();
     initAjaxAddToCart();
     refreshCartCount();
+    document.addEventListener("sklep:cart-updated", refreshCartCount);
   });
 })();
-

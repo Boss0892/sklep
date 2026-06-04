@@ -1,0 +1,49 @@
+{%- if settings.newsletter_enabled -%}
+  <section class="newsletter">
+    <div class="container">
+      <div class="newsletter__panel surface">
+        <div class="newsletter__copy">
+          <h2 class="section-title" style="margin:0 0 10px 0">{{ section.settings.heading }}</h2>
+          <p class="muted" style="margin:0">{{ section.settings.text }}</p>
+        </div>
+
+        <div class="newsletter__form">
+          {% form 'customer' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <label class="sr-only" for="NewsletterEmail">Email</label>
+            <div class="newsletter__row">
+              <input
+                id="NewsletterEmail"
+                class="newsletter__input"
+                type="email"
+                name="contact[email]"
+                autocomplete="email"
+                required
+                placeholder="Twój email"
+              >
+              <button class="btn btn--cta" type="submit">{{ section.settings.button_label }}</button>
+            </div>
+
+            {%- if form.posted_successfully? -%}
+              <p class="kicker" style="margin:10px 0 0 0">Jesteś na liście.</p>
+            {%- elsif form.errors -%}
+              <p class="muted" style="margin:10px 0 0 0">Sprawdź email i spróbuj ponownie.</p>
+            {%- endif -%}
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Nagłówek", "default": "Newsletter" },
+    { "type": "text", "id": "text", "label": "Tekst", "default": "Bądź pierwszy. Nowe produkty, promocje i porady — prosto na Twoją skrzynkę." },
+    { "type": "text", "id": "button_label", "label": "Przycisk — tekst", "default": "Zapisz się" }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

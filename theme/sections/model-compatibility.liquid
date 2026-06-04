@@ -1,0 +1,57 @@
+<section class="models">
+  <div class="container">
+    <div class="models__head">
+      <p class="kicker">{{ section.settings.kicker }}</p>
+      <h2 class="section-title">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="grid grid--4 models__grid">
+      {%- for block in section.blocks -%}
+        <div class="card card-hover models__card" {{ block.shopify_attributes }}>
+          <div class="models__card-inner">
+            <p class="models__name">{{ block.settings.title }}</p>
+            <p class="muted models__desc">{{ block.settings.text }}</p>
+            {%- if block.settings.link != blank -%}
+              <a class="btn btn--outline models__btn" href="{{ block.settings.link }}">{{ block.settings.button_label }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Model compatibility",
+  "settings": [
+    { "type": "text", "id": "kicker", "label": "Kicker", "default": "Dopasuj w 10 sekund" },
+    { "type": "text", "id": "heading", "label": "Nagłówek", "default": "ZNAJDŹ CZĘŚCI DO SWOJEGO MODELU" }
+  ],
+  "blocks": [
+    {
+      "type": "model",
+      "name": "Model",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Nazwa", "default": "Kukirin G4" },
+        { "type": "text", "id": "text", "label": "Opis", "default": "Najmocniejszy setup? Upewnij się, że masz części pod G4." },
+        { "type": "url", "id": "link", "label": "Link do kolekcji" },
+        { "type": "text", "id": "button_label", "label": "Tekst przycisku", "default": "Sprawdź części" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Model compatibility",
+      "blocks": [
+        { "type": "model", "settings": { "title": "Kukirin G4", "text": "Najmocniejszy setup? Upewnij się, że masz części pod G4.", "button_label": "Sprawdź części" } },
+        { "type": "model", "settings": { "title": "Kukirin G2", "text": "Solidna baza do tuningu — dobierz komponenty pod G2.", "button_label": "Sprawdź części" } },
+        { "type": "model", "settings": { "title": "Kukirin G2 Pro", "text": "Pro oznacza detale. Dobierz części kompatybilne z G2 Pro.", "button_label": "Sprawdź części" } },
+        { "type": "model", "settings": { "title": "Kukirin G2 Max", "text": "Więcej zasięgu? Więcej mocy? Zacznij od kompatybilności z G2 Max.", "button_label": "Sprawdź części" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

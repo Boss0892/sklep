@@ -1,0 +1,43 @@
+{% section 'breadcrumbs' %}
+
+<main class="container" style="padding:26px 0 56px 0">
+  <div class="grid grid--2" style="align-items:start">
+    <div class="surface" style="padding:18px">
+      <p class="kicker">Kontakt</p>
+      <h1 class="section-title" style="margin:0 0 14px 0">{{ page.title }}</h1>
+
+      {% form 'contact' %}
+        {%- if form.posted_successfully? -%}
+          <p class="kicker" style="margin:0 0 12px 0">Wiadomość wysłana.</p>
+        {%- endif -%}
+
+        <div class="stack">
+          <label>
+            <span class="product__label">Imię</span>
+            <input class="search__input" type="text" name="contact[name]" autocomplete="name" required>
+          </label>
+          <label>
+            <span class="product__label">Email</span>
+            <input class="search__input" type="email" name="contact[email]" autocomplete="email" required>
+          </label>
+          <label>
+            <span class="product__label">Temat</span>
+            <input class="search__input" type="text" name="contact[subject]" required>
+          </label>
+          <label>
+            <span class="product__label">Wiadomość</span>
+            <textarea class="search__input" name="contact[body]" rows="5" required></textarea>
+          </label>
+          <button class="btn btn--cta" type="submit">Wyślij</button>
+        </div>
+      {% endform %}
+    </div>
+
+    <aside class="surface" style="padding:18px">
+      <p class="footer__title" style="margin:0 0 10px 0">Szybki kontakt</p>
+      <p class="muted" style="margin:0 0 12px 0">Odpowiadamy zwykle w ciągu 24h.</p>
+      <p style="margin:0"><a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></p>
+    </aside>
+  </div>
+</main>
+

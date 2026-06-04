@@ -1,0 +1,112 @@
+<footer class="footer" role="contentinfo">
+  <div class="container footer__grid">
+    <div class="footer__col">
+      <a class="footer__brand" href="{{ routes.root_url }}">
+        <span class="footer__mark" aria-hidden="true">
+          <svg class="icon"><use href="#icon-scooter"></use></svg>
+        </span>
+        <span class="footer__name">{{ settings.store_name | default: shop.name }}</span>
+      </a>
+      <p class="muted footer__desc">{{ section.settings.about_text }}</p>
+    </div>
+
+    <div class="footer__col">
+      <p class="footer__title">Nawigacja</p>
+      <ul class="footer__links" role="list">
+        {%- if section.settings.menu_main != blank -%}
+          {%- for link in section.settings.menu_main.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        {%- else -%}
+          <li><a href="{{ routes.all_products_collection_url }}">Sklep</a></li>
+          <li><a href="/collections">Modele</a></li>
+          <li><a href="/pages/o-nas">O nas</a></li>
+          <li><a href="/pages/kontakt">Kontakt</a></li>
+        {%- endif -%}
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <p class="footer__title">Pomoc</p>
+      <ul class="footer__links" role="list">
+        {%- if section.settings.menu_help != blank -%}
+          {%- for link in section.settings.menu_help.links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        {%- else -%}
+          <li><a href="/policies/terms-of-service">Regulamin</a></li>
+          <li><a href="/policies/refund-policy">Polityka zwrotów</a></li>
+          <li><a href="/policies/privacy-policy">Polityka prywatności</a></li>
+          <li><a href="/pages/faq">FAQ</a></li>
+        {%- endif -%}
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <p class="footer__title">Kontakt</p>
+      <p class="footer__contact">
+        <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>
+      </p>
+
+      <div class="footer__social" aria-label="Social media">
+        {%- if settings.social_instagram != blank -%}
+          <a class="icon-btn" href="{{ settings.social_instagram }}" aria-label="Instagram">
+            <svg class="icon" aria-hidden="true"><use href="#icon-instagram"></use></svg>
+          </a>
+        {%- endif -%}
+        {%- if settings.social_facebook != blank -%}
+          <a class="icon-btn" href="{{ settings.social_facebook }}" aria-label="Facebook">
+            <svg class="icon" aria-hidden="true"><use href="#icon-facebook"></use></svg>
+          </a>
+        {%- endif -%}
+        {%- if settings.social_tiktok != blank -%}
+          <a class="icon-btn" href="{{ settings.social_tiktok }}" aria-label="TikTok">
+            <svg class="icon" aria-hidden="true"><use href="#icon-tiktok"></use></svg>
+          </a>
+        {%- endif -%}
+        {%- if settings.social_youtube != blank -%}
+          <a class="icon-btn" href="{{ settings.social_youtube }}" aria-label="YouTube">
+            <svg class="icon" aria-hidden="true"><use href="#icon-youtube"></use></svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <div class="container footer__bottom">
+    <div class="footer__copy">
+      © {{ 'now' | date: '%Y' }} {{ settings.store_name | default: shop.name }}. {{ 'footer.copyright' | t }}.
+    </div>
+    <div class="footer__payments" aria-label="Metody płatności">
+      <span class="pay-pill" aria-label="Visa">VISA</span>
+      <span class="pay-pill" aria-label="Mastercard">MC</span>
+      <span class="pay-pill" aria-label="BLIK">BLIK</span>
+      <span class="pay-pill" aria-label="PayPal">PayPal</span>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "about_text",
+      "label": "Opis w stopce",
+      "default": "Części i akcesoria do customowania hulajnóg Kukirin. Technicznie, szybko i bez ściemy."
+    },
+    {
+      "type": "link_list",
+      "id": "menu_main",
+      "label": "Menu: nawigacja"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_help",
+      "label": "Menu: pomoc"
+    }
+  ]
+}
+{% endschema %}
+

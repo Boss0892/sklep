@@ -1,0 +1,20 @@
+<div class="announcement" role="region" aria-label="Ogłoszenie">
+  <div class="container">
+    <div class="announcement__inner">
+      <div class="announcement__track" aria-hidden="true">
+        <span class="announcement__text">{{ settings.announcement_text }}</span>
+        <span class="announcement__sep">•</span>
+        <span class="announcement__text">{{ settings.announcement_text }}</span>
+      </div>
+      <span class="announcement__text announcement__text--static">{{ settings.announcement_text }}</span>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": []
+}
+{% endschema %}
+
